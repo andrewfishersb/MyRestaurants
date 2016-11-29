@@ -52,7 +52,23 @@ public class YelpService {
                     String website = restaurantJSON.getString("url");
                     double rating = restaurantJSON.getDouble("rating");
                     String imageUrl = restaurantJSON.getString("image_url");
-                    double
+                    double latitude = restaurantJSON.getJSONObject("location")
+                            .getJSONObject("coordinate").getDouble("latitude");
+                    double longitude = restaurantJSON.getJSONObject("location")
+                            .getJSONObject("coordinate").getDouble("longitude");
+                    ArrayList<String> address = new ArrayList<>();
+                    JSONArray addressJSON = restaurantJSON.getJSONObject("location")
+                            .getJSONArray("display_address");
+                    for (int j = 0; j <addressJSON.length(); j++){
+                        address.add(addressJSON.get(j).toString());
+                    }
+                    ArrayList<String> categories = new ArrayList<>();
+                    JSONArray categoriesJSON = restaurantJSON.getJSONArray("categories");
+                    for (int j = 0; j <addressJSON.length(); j++){
+                        categories.add(categoriesJSON.getJSONArray(j).get(0).toString());
+                    }
+                    Restaurant restaurant = new Restaurant(name, phone, website,rating, imageUrl, address, latitude,longitude,categories);
+                    restaurants.add(restaurant);
                 }
             }
 
