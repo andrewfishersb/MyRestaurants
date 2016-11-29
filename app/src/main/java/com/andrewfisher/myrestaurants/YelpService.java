@@ -38,14 +38,15 @@ public class YelpService {
         call.enqueue(callback);
     }
 
-    public ArrayList<Restaurant> processResults(Response response){
+    public ArrayList<Restaurant> processResults(Response response) {
         ArrayList<Restaurant> restaurants = new ArrayList<>();
+
         try {
             String jsonData = response.body().string();
-            if(response.isSuccessful()){
+            if (response.isSuccessful()) {
                 JSONObject yelpJSON = new JSONObject(jsonData);
                 JSONArray businessesJSON = yelpJSON.getJSONArray("businesses");
-                for (int i = 0; i < businessesJSON.length(); i++){
+                for (int i = 0; i < businessesJSON.length(); i++) {
                     JSONObject restaurantJSON = businessesJSON.getJSONObject(i);
                     String name = restaurantJSON.getString("name");
                     String phone = restaurantJSON.optString("display_phone", "Phone not available");
@@ -59,25 +60,28 @@ public class YelpService {
                     ArrayList<String> address = new ArrayList<>();
                     JSONArray addressJSON = restaurantJSON.getJSONObject("location")
                             .getJSONArray("display_address");
-                    for (int j = 0; j <addressJSON.length(); j++){
-                        address.add(addressJSON.get(j).toString());
+                    for (int y = 0; y < addressJSON.length(); y++) {
+                        address.add(addressJSON.get(y).toString());
                     }
+
                     ArrayList<String> categories = new ArrayList<>();
                     JSONArray categoriesJSON = restaurantJSON.getJSONArray("categories");
-                    for (int j = 0; j <addressJSON.length(); j++){
-                        categories.add(categoriesJSON.getJSONArray(j).get(0).toString());
+
+                    for (int y = 0; y < categoriesJSON.length(); y++) {
+                        categories.add(categoriesJSON.getJSONArray(y).get(0).toString());
                     }
-                    Restaurant restaurant = new Restaurant(name, phone, website,rating, imageUrl, address, latitude,longitude,categories);
+                    Restaurant restaurant = new Restaurant(name, phone, website, rating,
+                            imageUrl, address, latitude, longitude, categories);
                     restaurants.add(restaurant);
                 }
             }
-
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return restaurants;
     }
+
 
 }
