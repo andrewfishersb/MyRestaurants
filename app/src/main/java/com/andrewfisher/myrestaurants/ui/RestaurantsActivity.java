@@ -1,17 +1,17 @@
-package com.andrewfisher.myrestaurants;
+package com.andrewfisher.myrestaurants.ui;
+
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+
+import com.andrewfisher.myrestaurants.R;
+import com.andrewfisher.myrestaurants.Restaurant;
+import com.andrewfisher.myrestaurants.RestaurantListAdapter;
+import com.andrewfisher.myrestaurants.YelpService;
 
 import java.io.IOException;
 import java.util.ArrayList;

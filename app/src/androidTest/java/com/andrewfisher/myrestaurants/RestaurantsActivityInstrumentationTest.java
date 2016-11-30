@@ -20,20 +20,20 @@ import static org.hamcrest.core.IsNot.not;
 
 public class RestaurantsActivityInstrumentationTest {
 
-    @Rule
-    public ActivityTestRule<RestaurantsActivity> activityTestRule =
-            new ActivityTestRule<>(RestaurantsActivity.class);
-
-    @Test
-    public void listItemClickDisplaysToastWithCorrectRestaurant() {
-        View activityDecorView = activityTestRule.getActivity().getWindow().getDecorView();
-        String restaurantName = "Sweet Hereafter";
-        onData(anything())
-                .inAdapterView(withId(R.id.listView))
-                .atPosition(0)
-                .perform(click());
-        onView(withText(restaurantName)).inRoot(withDecorView(not(activityDecorView)))
-                .check(matches(withText(restaurantName)));
-    }
+//    @Rule
+//    public ActivityTestRule<RestaurantsActivity> activityTestRule =
+//            new ActivityTestRule<>(RestaurantsActivity.class);
+//
+//    @Test
+//    public void listItemClickDisplaysToastWithCorrectRestaurant() {
+//        View activityDecorView = activityTestRule.getActivity().getWindow().getDecorView();
+//        String restaurantName = "Sweet Hereafter";
+//        onData(anything())
+//                .inAdapterView(withId(R.id.listView))
+//                .atPosition(0)
+//                .perform(click());
+//        onView(withText(restaurantName)).inRoot(withDecorView(not(activityDecorView)))
+//                .check(matches(withText(restaurantName)));
+//    }
 }
 
