@@ -1,4 +1,7 @@
-package com.andrewfisher.myrestaurants;
+package com.andrewfisher.myrestaurants.services;
+
+import com.andrewfisher.myrestaurants.Constants;
+import com.andrewfisher.myrestaurants.model.Restaurant;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.andrewfisher.myrestaurants;
+package com.andrewfisher.myrestaurants.ui;
 
 
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.andrewfisher.myrestaurants.R;
+import com.andrewfisher.myrestaurants.ui.RestaurantsActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -9,9 +9,10 @@ import android.support.v7.widget.RecyclerView;
 
 
 import com.andrewfisher.myrestaurants.R;
-import com.andrewfisher.myrestaurants.Restaurant;
-import com.andrewfisher.myrestaurants.RestaurantListAdapter;
-import com.andrewfisher.myrestaurants.YelpService;
+import com.andrewfisher.myrestaurants.adapter.RestaurantListAdapter;
+import com.andrewfisher.myrestaurants.model.Restaurant;
+import com.andrewfisher.myrestaurants.services.YelpService;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
