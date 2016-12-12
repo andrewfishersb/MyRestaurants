@@ -33,7 +33,7 @@ public class Restaurant {
         this.latitude = latitude;
         this.longitude = longitude;
         this.categories = categories;
-        this.index ="not_specified";
+        this.index = "not_specified";
     }
 
     public String getName() {
@@ -92,5 +92,4 @@ public class Restaurant {
     public void setIndex(String index) {
         this.index = index;
     }
-
 }

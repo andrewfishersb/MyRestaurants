@@ -1,11 +1,13 @@
 package com.andrewfisher.myrestaurants.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.andrewfisher.myrestaurants.model.Restaurant;
+import com.andrewfisher.myrestaurants.ui.RestaurantDetailActivity;
 import com.andrewfisher.myrestaurants.util.ItemTouchHelperAdapter;
 import com.andrewfisher.myrestaurants.util.OnStartDragListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -15,29 +17,31 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+
 
 
 public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Restaurant, FirebaseRestaurantViewHolder> implements ItemTouchHelperAdapter {
     private DatabaseReference mRef;
     private OnStartDragListener mOnStartDragListener;
-    private Context mContext;
-
     private ChildEventListener mChildEventListener;
+    private Context mContext;
     private ArrayList<Restaurant> mRestaurants = new ArrayList<>();
 
+    public FirebaseRestaurantListAdapter(Class<Restaurant> modelClass, int modelLayout,
+                                         Class<FirebaseRestaurantViewHolder> viewHolderClass,
+                                         Query ref, OnStartDragListener onStartDragListener, Context context) {
 
-    public FirebaseRestaurantListAdapter(Class<Restaurant> modelClass,
-                                         int modelLayout, Class<FirebaseRestaurantViewHolder> viewHolderClass,
-                                         Query ref, OnStartDragListener onStartDragListener, Context context){
         super(modelClass, modelLayout, viewHolderClass, ref);
         mRef = ref.getRef();
         mOnStartDragListener = onStartDragListener;
         mContext = context;
 
         mChildEventListener = mRef.addChildEventListener(new ChildEventListener() {
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mRestaurants.add(dataSnapshot.getValue(Restaurant.class));
@@ -66,36 +70,65 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
     }
 
     @Override
-    protected void populateViewHolder(final FirebaseRestaurantViewHolder viewHolder, Restaurant model, int position){
+    protected void populateViewHolder(final FirebaseRestaurantViewHolder viewHolder, Restaurant model, int position) {
         viewHolder.bindRestaurant(model);
-        viewHolder.mRestaurantImageView.setOnTouchListener(new View.OnTouchListener(){
+
+        viewHolder.mRestaurantImageView.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public boolean onTouch(View v, MotionEvent event){
-                if(MotionEventCompat.getActionMasked(event)==MotionEvent.ACTION_DOWN){
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                     mOnStartDragListener.onStartDrag(viewHolder);
                 }
                 return false;
             }
+
         });
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
+                intent.putExtra("position", viewHolder.getAdapterPosition());
+                intent.putExtra("restaurants", Parcels.wrap(mRestaurants));
+                mContext.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
-    public boolean onItemMove(int fromPosition, int toPosition){
-        //can i do the vice versa of this as well
+    public boolean onItemMove(int fromPosition, int toPosition) {
         Collections.swap(mRestaurants, fromPosition, toPosition);
-        notifyItemMoved(fromPosition,toPosition);
+        notifyItemMoved(fromPosition, toPosition);
         return false;
+
+
+
+
+        //this is code from online???
+//        if (fromPosition < toPosition) {
+//            for (int i = fromPosition; i < toPosition; i++) {
+//                Collections.swap(mItems, i, i + 1);
+//            }
+//        } else {
+//            for (int i = fromPosition; i > toPosition; i--) {
+//                Collections.swap(mItems, i, i - 1);
+//            }
+//        }
+//        notifyItemMoved(fromPosition, toPosition);
+//        return true;
     }
 
     @Override
-    public void onItemDismiss(int position){
+    public void onItemDismiss(int position) {
         mRestaurants.remove(position);
         getRef(position).removeValue();
     }
 
-    //updates indexes of all items so there arent any numerical gaps
-    private void setIndexInFirebase(){
-        for(Restaurant restaurant : mRestaurants){
+    private void setIndexInFirebase() {
+        for (Restaurant restaurant : mRestaurants) {
             int index = mRestaurants.indexOf(restaurant);
             DatabaseReference ref = getRef(index);
             restaurant.setIndex(Integer.toString(index));
@@ -104,12 +137,12 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
     }
 
     @Override
-    public void cleanup(){
+    public void cleanup() {
         super.cleanup();
+        //do switch here??? may set fromPos toPos as global and then switch value here???, just to try for my program
+
+
         setIndexInFirebase();
         mRef.removeEventListener(mChildEventListener);
     }
-
-
-
 }
