@@ -3,6 +3,7 @@ package com.andrewfisher.myrestaurants.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.andrewfisher.myrestaurants.Constants;
 import com.andrewfisher.myrestaurants.R;
 import com.andrewfisher.myrestaurants.model.Restaurant;
 import com.andrewfisher.myrestaurants.ui.RestaurantDetailActivity;
+import com.andrewfisher.myrestaurants.util.ItemTouchHelperViewHolder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by Guest on 12/5/16.
  */
-public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, ItemTouchHelperViewHolder {
     private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
 
@@ -81,5 +83,23 @@ public class FirebaseRestaurantViewHolder extends RecyclerView.ViewHolder implem
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    @Override
+    public void onItemSelected() {
+        itemView.animate()
+                .alpha(.7f)
+                .scaleX(.9f)
+                .scaleY(.9f)
+                .setDuration(500);
+    }
+
+    @Override
+    public void onItemClear() {
+        itemView.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f);
+
     }
 }

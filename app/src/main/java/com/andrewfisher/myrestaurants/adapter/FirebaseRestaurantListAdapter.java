@@ -107,18 +107,7 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
 
 
 
-        //this is code from online???
-//        if (fromPosition < toPosition) {
-//            for (int i = fromPosition; i < toPosition; i++) {
-//                Collections.swap(mItems, i, i + 1);
-//            }
-//        } else {
-//            for (int i = fromPosition; i > toPosition; i--) {
-//                Collections.swap(mItems, i, i - 1);
-//            }
-//        }
-//        notifyItemMoved(fromPosition, toPosition);
-//        return true;
+
     }
 
     @Override
@@ -139,9 +128,6 @@ public class FirebaseRestaurantListAdapter extends FirebaseRecyclerAdapter<Resta
     @Override
     public void cleanup() {
         super.cleanup();
-        //do switch here??? may set fromPos toPos as global and then switch value here???, just to try for my program
-
-
         setIndexInFirebase();
         mRef.removeEventListener(mChildEventListener);
     }
