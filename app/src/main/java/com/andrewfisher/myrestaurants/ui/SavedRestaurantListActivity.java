@@ -10,6 +10,8 @@ import com.andrewfisher.myrestaurants.R;
 import com.andrewfisher.myrestaurants.adapter.FirebaseRestaurantViewHolder;
 import com.andrewfisher.myrestaurants.model.Restaurant;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,19 +31,28 @@ public class SavedRestaurantListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurants);
         ButterKnife.bind(this);
 
-        mRestaurantReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_RESTAURANTS);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        mRestaurantReference = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_RESTAURANTS)
+                .child(uid);
+
         setUpFirebaseAdapter();
     }
 
     private void setUpFirebaseAdapter() {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Restaurant, FirebaseRestaurantViewHolder>
-                (Restaurant.class, R.layout.restaurant_list_item, FirebaseRestaurantViewHolder.class, mRestaurantReference) {
+                (Restaurant.class, R.layout.restaurant_list_item, FirebaseRestaurantViewHolder.class,
+                        mRestaurantReference) {
+
             @Override
-            protected void populateViewHolder(FirebaseRestaurantViewHolder viewHolder, Restaurant model, int position) {
+            protected void populateViewHolder(FirebaseRestaurantViewHolder viewHolder,
+                                              Restaurant model, int position) {
                 viewHolder.bindRestaurant(model);
             }
         };
-
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
