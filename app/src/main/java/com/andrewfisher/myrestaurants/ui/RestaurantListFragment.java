@@ -22,6 +22,7 @@ import com.andrewfisher.myrestaurants.R;
 import com.andrewfisher.myrestaurants.adapter.RestaurantListAdapter;
 import com.andrewfisher.myrestaurants.model.Restaurant;
 import com.andrewfisher.myrestaurants.services.YelpService;
+import com.andrewfisher.myrestaurants.util.OnRestaurantSelectedListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +42,8 @@ public class RestaurantListFragment extends Fragment {
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private String mRecentAddress;
+    private OnRestaurantSelectedListener mOnRestaurantSelectedListener;
+
 
     public RestaurantListFragment() {
         // Required empty public constructor
@@ -93,7 +96,7 @@ public class RestaurantListFragment extends Fragment {
                         // Line above states 'getActivity()' instead of previous 'RestaurantListActivity.this'
                         // because fragments do not have own context, and must inherit from corresponding activity.
 
-                        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants);
+                        mAdapter = new RestaurantListAdapter(getActivity(), mRestaurants,mOnRestaurantSelectedListener);
                         // Line above states `getActivity()` instead of previous
                         // 'getApplicationContext()' because fragments do not have own context,
                         // must instead inherit it from corresponding activity.
@@ -107,6 +110,16 @@ public class RestaurantListFragment extends Fragment {
                 });
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try{
+            mOnRestaurantSelectedListener = (OnRestaurantSelectedListener) context;
+        }catch(ClassCastException e){
+            throw new ClassCastException(context.toString()+ e.getMessage());
+        }
     }
 
     @Override
