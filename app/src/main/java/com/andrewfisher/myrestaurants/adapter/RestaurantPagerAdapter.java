@@ -22,7 +22,7 @@ public class RestaurantPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return RestaurantDetailFragment.newInstance(mRestaurants.get(position));
+        return RestaurantDetailFragment.newInstance(mRestaurants, position);
     }
 
     @Override
@@ -34,4 +34,6 @@ public class RestaurantPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mRestaurants.get(position).getName();
     }
+
+
 }

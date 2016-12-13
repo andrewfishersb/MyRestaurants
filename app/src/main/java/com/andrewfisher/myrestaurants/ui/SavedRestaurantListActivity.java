@@ -23,21 +23,11 @@ import com.google.firebase.database.Query;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SavedRestaurantListActivity extends AppCompatActivity implements OnStartDragListener {
-    private FirebaseRestaurantListAdapter mFirebaseAdapter;
-    private ItemTouchHelper mItemTouchHelper;
-
-    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-
+public class SavedRestaurantListActivity extends AppCompatActivity {//implements OnStartDragListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_restaurants);
-        ButterKnife.bind(this);
-
-        setUpFirebaseAdapter();
+        setContentView(R.layout.activity_saved_restaurant_list);
     }
-
-
 }
+//}
